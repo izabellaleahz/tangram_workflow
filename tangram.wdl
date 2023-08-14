@@ -60,56 +60,12 @@ task run_tangram {
 
         adata_sc = sc.read_h5ad('~{anndata_file_sp}')
 
-        sc.pp.filter_genes(adata_sp, min_cells=1)
-        sc.pp.filter_genes(adata_sc, min_cells=1)
-
-        coords = np.array((adata_sp.obs["X"],adata_sp.obs["Y"]))
-        adata_sp.obsm["spatial"] = coords.T 
-
-        adata_sp.uns["spatial"] = adata_sp.obsm["spatial"]
-        adata_sp.obs['total_counts'] = (adata_sp.X > 0).sum(axis=1)
-        adata_sc.obs['total_counts'] = (adata_sc.X > 0).sum(axis=1)
-
-        
-        mapping_dict = {
-            'B': 'B-cells/plasma cells',
-            'T': 'T-cell',
-            'Endothelial': 'endothelial (vascular)',
-            'Epithelial': 'epithelial',
-            'Fibroblast': 'fibroblast (ECM)',
-            'Hepatocytes': 'hepatocyte',
-            'Myeloid': 'macrophage/myeloid',
-            'Mast': 'macrophage/myeloid',
-            'Plasma': 'B-cells/plasma cells'
-        }
-
-        adata_sc.obs['cell_types_coarse'] = [mapping_dict[label] for label in adata_sc.obs['category']]
-
-        mapping_dict = {
-            2: 'P02',
-            13: 'P13',
-            18: 'P18',
-            19: 'P19', 
-            28: 'P28', 
-            35: 'P35'
-        }
-
-        adata_sp.obs['patientID'] = [mapping_dict[label] for label in adata_sp.obs['sample']]
-
-        sc.tl.rank_genes_groups(adata_sc, groupby="cell_types_coarse", use_raw=False)
-        markers_df = pd.DataFrame(adata_sc.uns["rank_genes_groups"]["names"]).iloc[0:100, :]
-        markers = list(np.unique(markers_df.melt().value.values))
-        print("Number of markers: " + str(len(markers)))
-
         tg.pp_adatas(adata_sc, adata_sp, genes=markers)
 
         ad_map = tg.map_cells_to_space(adata_sc, adata_sp,
             mode="cells",
-            # mode="clusters",
-            # cluster_label='cell_types_coarse',  # .obs field w cell types
             density_prior='rna_count_based',
             num_epochs=500,
-        #     device="cuda:0",
             device='cpu',
         )
 
