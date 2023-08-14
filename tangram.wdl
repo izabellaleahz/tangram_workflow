@@ -60,6 +60,9 @@ task run_tangram {
 
         adata_sc = sc.read_h5ad('~{anndata_file_sp}')
 
+        markers_df = pd.DataFrame(adata_sc.uns["rank_genes_groups"]["names"]).iloc[0:100, :]
+        markers = list(np.unique(markers_df.melt().value.values))
+
         tg.pp_adatas(adata_sc, adata_sp, genes=markers)
 
         ad_map = tg.map_cells_to_space(adata_sc, adata_sp,
