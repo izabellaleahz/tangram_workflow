@@ -56,9 +56,9 @@ task run_tangram {
         import torch
         import tangram as tg
 
-        adata_sp = sc.read_h5ad('~{anndata_file_sc}')
+        adata_sp = sc.read_h5ad("~{anndata_file_sp}")
 
-        adata_sc = sc.read_h5ad('~{anndata_file_sp}')
+        adata_sc = sc.read_h5ad("~{anndata_file_sc}")
 
         markers_df = pd.DataFrame(adata_sc.uns["rank_genes_groups"]["names"]).iloc[0:100, :]
         markers = list(np.unique(markers_df.melt().value.values))
