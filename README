@@ -1,0 +1,5 @@
+# README 
+
+This is very specific to the CRC dataset - hardcoded mapping of cell type labels to align as well as patient IDs
+
+Needs to be updates to be usable for other data sets 
