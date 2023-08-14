@@ -56,9 +56,9 @@ task run_tangram {
         import torch
         import tangram as tg
 
-        adata_sp = sc.read_h5ad("../baysor_crc_CosMx.h5ad")
+        adata_sp = sc.read_h5ad('~{anndata_file_sc}')
 
-        adata_sc = sc.read_h5ad("../../scRNA/scRNA_CRC.h5ad")
+        adata_sc = sc.read_h5ad('~{anndata_file_sp}')
 
         sc.pp.filter_genes(adata_sp, min_cells=1)
         sc.pp.filter_genes(adata_sc, min_cells=1)
