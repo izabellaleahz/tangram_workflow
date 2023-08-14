@@ -121,7 +121,7 @@ task run_tangram {
         gsutil -m rsync -r outputs ~{output_dir}
     >>>
     output {
-        File trangram_object = '~{output_dir}' + 'ad_map.h5ad'
+        File tangram_object = '~{output_dir}' + 'ad_map.h5ad'
     }
     runtime {
         docker: docker
