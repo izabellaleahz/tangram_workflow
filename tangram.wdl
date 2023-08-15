@@ -82,12 +82,10 @@ task run_tangram {
     output {
         File tangram_object = '~{output_dir}' + 'ad_map.h5ad'
     }
-    runtime {
-        docker: docker
-        memory: memory
-        bootDiskSizeGb: 12
-        disks: "local-disk " + (ceil(size(anndata_file_sc, "GB")*4) + extra_disk_space) + " HDD"
-        cpu: cpu
-        preemptible: preemptible
+    runtime { 
+      gpuType: "nvidia-tesla-k80"
+      gpuCount: 2
+      nvidiaDriverVersion: "418.87.00"
+      zones: ["us-central1-c"] 
     }
 }
