@@ -72,7 +72,7 @@ task run_tangram {
             device='cpu',
         )
 
-        ad_map.write_h5ad('~{output_dir}' + 'ad_map.h5ad')
+        ad_map.write_h5ad('outputs/ad_map.h5ad')
 
 
 
@@ -80,7 +80,7 @@ task run_tangram {
         gsutil -m rsync -r outputs ~{output_dir}
     >>>
     output {
-        File tangram_object = '~{output_dir}' + 'ad_map.h5ad'
+        File tangram_object = 'outputs/ad_map.h5ad'
     }
     runtime { 
       docker: docker
