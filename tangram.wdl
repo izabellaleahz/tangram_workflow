@@ -88,9 +88,11 @@ task run_tangram {
       bootDiskSizeGb: 12
       disks: "local-disk " + (ceil(size(anndata_file_sc, "GB")*4) + extra_disk_space) + " HDD"
       cpu: cpu
+      gpu: true
       preemptible: preemptible
-      gpuType: "nvidia-tesla-t4-vws"
+      gpuType: "nvidia-tesla-p100-vws" 
       gpuCount: 2
       zones: ["us-central1-c"] 
+      nvidiaDriverVersion: "450.80.02"
     }
 }
